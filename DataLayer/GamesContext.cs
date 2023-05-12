@@ -20,6 +20,36 @@ namespace DataLayer
         {
             try
             {
+                List<Genre> genres = new();
+                foreach (Genre genre in item.Genres)
+                {
+                    Genre genreFromDb = dbContext.Genres.Find(genre.Id);
+                    if (genreFromDb != null) 
+                    {
+                        genres.Add(genreFromDb);
+                    }
+                    else
+                    {
+                        genres.Add(genre);
+                    }
+                }
+                item.Genres = genres;
+
+                List<User> users = new();
+                foreach (User user in item.Users)
+                {
+                    User userFromDb = dbContext.Users.Find(user.Id);
+                    if (userFromDb != null)
+                    {
+                        users.Add(userFromDb);
+                    }
+                    else
+                    {
+                        users.Add(user);
+                    }
+                }
+                item.Users = users;
+
                 dbContext.Games.Add(item);
                 dbContext.SaveChanges();
             }
