@@ -78,8 +78,8 @@ namespace TestingLayer
         [Test]
         public void ReadAllWithNavigationalProperties()
         {
-            Game readGame = new("Minecraft");
-            Genre g1 = new("Action");
+            Game readGame = new("Tetris");
+            Genre g1 = new("Puzzle");
             User u1 = new("Kristiyan", "Angelov", 17, "KrisAngelov", "4321", "kristiyanangelov_zh19.schoolmath.eu");
             SetupFixture.dbContext.Users.Add(u);
             SetupFixture.dbContext.Genres.Add(g1);
