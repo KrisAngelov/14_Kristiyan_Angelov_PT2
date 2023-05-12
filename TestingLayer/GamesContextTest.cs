@@ -14,10 +14,11 @@ namespace TestingLayer
     [TestFixture]
     public class GamesContextTest
     {
-        private GamesContext context = new GamesContext(SetupFixture.dbContext);
+        private GamesContext context = new(SetupFixture.dbContext);
         private Game game;
         private User u;
         private Genre g;
+
         [SetUp]
         public void CreateGame()
         {
@@ -30,8 +31,9 @@ namespace TestingLayer
 
             context.Create(game);
         }
+
         [TearDown]
-        public void DropClass()
+        public void DropGame()
         {
             foreach (Game item in SetupFixture.dbContext.Games.ToList())
             {
@@ -40,6 +42,7 @@ namespace TestingLayer
 
             SetupFixture.dbContext.SaveChanges();
         }
+
         [Test]
         public void Create()
         {
@@ -49,12 +52,14 @@ namespace TestingLayer
             int gamesAfter = SetupFixture.dbContext.Games.Count();
             Assert.That(gamesBefore + 1 == gamesAfter, "Create() does not work!");
         }
+
         [Test]
         public void Read()
         {
             Game readGame = context.Read(game.Id);
             Assert.AreEqual(game, readGame, "Read() does not return the same object!");
         }
+
         [Test]
         public void ReadWithNavigationalProperties()
         {
@@ -62,13 +67,14 @@ namespace TestingLayer
             Assert.That(readGame.Users.Contains(u), "U is not in the Users list!");
             Assert.That(readGame.Genres.Contains(g), "G is not in the Genres list!");
         }
+
         [Test]
         public void ReadAll()
         {
             List<Game> games = (List<Game>)context.ReadAll();
-
-            Assert.That(games.Count != 0, "ReadAll() does not return classes!");
+            Assert.That(games.Count != 0, "ReadAll() does not return games!");
         }
+
         [Test]
         public void ReadAllWithNavigationalProperties()
         {
@@ -81,8 +87,9 @@ namespace TestingLayer
 
             List<Game> games = (List<Game>)context.ReadAll(true);
             Assert.That(games.Count != 0 && context.Read(readGame.Id, true).Genres.Count == 1 
-                && context.Read(readGame.Id, true).Users.Count == 1, "ReadAll() does not return classes!");
+                && context.Read(readGame.Id, true).Users.Count == 1, "ReadAll() does not return games!");
         }
+
         [Test]
         public void Update()
         {
@@ -91,9 +98,18 @@ namespace TestingLayer
             changedGame.Name = "Updated " + game.Name;
 
             context.Update(changedGame);
+            game = context.Read(game.Id);
 
             Assert.AreEqual(changedGame, game, "Update() does not work!");
         }
-
+       
+        [Test]
+        public void Delete()
+        {
+            int gamesBefore = SetupFixture.dbContext.Games.Count();
+            context.Delete(game.Id);
+            int gamesAfter = SetupFixture.dbContext.Games.Count();
+            Assert.IsTrue(gamesBefore - 1 == gamesAfter, "Delete() does not work!");
+        }
     }
 }

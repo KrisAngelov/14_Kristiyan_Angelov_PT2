@@ -13,7 +13,7 @@ namespace BusinessLayer
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "Name can not be more than 20 symbols!")]
         public string Name { get; set; }
         public List<User> Users { get; set; }
         public List<Game> Games { get; set; }

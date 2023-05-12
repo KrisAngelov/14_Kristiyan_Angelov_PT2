@@ -13,26 +13,26 @@ namespace BusinessLayer
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "FirstName can not be more than 20 symbols!")]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "LastName can not be more than 20 symbols!")]
         public string LastName { get; set; }
 
-        [Range(10, 80)]
+        [Range(10, 80, ErrorMessage = "Age must be between 10 and 80!")]
         public int Age { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "UserName can not be more than 20 symbols!")]
         public string UserName { get; set; }
 
         [Required]
-        [MaxLength(70)]
+        [MaxLength(70, ErrorMessage = "Password can not be more than 70 symbols!")]
         public string Password { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "Email can not be more than 20 symbols!")]
         public string Email { get; set; }
 
         public List<User> Friends { get; set; }
